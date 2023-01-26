@@ -248,9 +248,9 @@ Schedule a pod on a node with label zone:dmz
 
 > Create a Kubernetes secret with Name "bobs-secret" containing data "password=bob"
 
-* Create a pod named pod-secrets-via-file, using the busybox image, which mounts the secret named bobs-secret at
+* Create a pod named pod-secrets-via-file, using the nginx image, which mounts the secret named bobs-secret at
   /secrets
-* Create a second pod named pod-secrets-via-env, using the busybox Image, which exports password as CONFIDENTIAL
+* Create a second pod named pod-secrets-via-env, using the nginx Image, which exports password as CONFIDENTIAL
   environment variable
 
 #### Answer:
