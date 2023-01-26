@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  nodeSelector:
+    name: minion2
+  volumes:
+    - name: task-pv
+      persistentVolumeClaim:
+        claimName: task-pv-claim
+  containers:
+    - name: nginx
+      image: nginx
+      resources:
+        limits:
+          cpu: "200m"
+          memory: "1Gi"
+        requests:
+          cpu: "200m"
+          memory: "1Gi"
+      volumeMounts:
+        - name: task-pv
+          mountPath: /usr/share/nginx/html

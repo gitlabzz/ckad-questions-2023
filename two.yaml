@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      ports:
+        - containerPort: 80
+      env:
+        - name: COOL_VARIABLE
+          valueFrom:
+            secretKeyRef:
+              key: key1
+              name: "another-secret"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never

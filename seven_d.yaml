@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      nodeSelector:
+        name: minion2
+      volumes:
+        - name: task-pv
+          persistentVolumeClaim:
+            claimName: task-pv-claim
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "1Gi"
+            requests:
+              cpu: "200m"
+              memory: "1Gi"
+          volumeMounts:
+            - name: task-pv
+              mountPath: /usr/share/nginx/html
