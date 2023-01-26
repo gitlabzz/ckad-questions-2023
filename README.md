@@ -190,3 +190,13 @@ create three pod:
 #### Answer:
 
 * kubectl run pod11 --image=busybox --restart=Never --dry-run=client -o yaml >> eleven.yaml
+
+---
+
+## Question: 12
+
+Schedule a pod on a node with label zone:dmz
+
+#### Answer:
+
+* kubectl run pod12 --image=busybox --restart=Never --dry-run=client -o yaml >> twelve.yaml
