@@ -200,3 +200,61 @@ Schedule a pod on a node with label zone:dmz
 #### Answer:
 
 * kubectl run pod12 --image=busybox --restart=Never --dry-run=client -o yaml >> twelve.yaml
+
+---
+
+## Question: 13
+
+> Create a deployment with name nginx-app
+
+* Using container nginx with version 1.23.3
+* The deployment should contain 3 replicas
+* Next, deploy the application with new version latest, by performing a rolling update
+* Finally, rollback that update to the previous version 1.23.3
+
+#### Answer:
+
+* kubectl create deployment nginx-app --image=nginx:1.23.3 --replicas=3
+* kubectl rollout status deployment nginx-app
+* kubectl set image deployment nginx-app nginx=nginx:latest
+* kubectl rollout status deployment nginx-app
+* kubectl rollout undo deployment nginx-app
+
+---
+
+## Question: 14
+
+> Create a service demo-service that routes to the existing pod named nginx
+
+#### Answer:
+
+* kubectl run nginx --image=nginx --port=80
+* kubectl expose pod nginx --name=demo-service --target-port=80 --port=80
+
+---
+
+## Question: 15
+
+> print pod names having label app=nginx
+
+#### Answer:
+
+* kubectl create deployment nginx --image=nginx --replicas=7
+* kubectl get pods -l app=nginx -o NAME
+
+---
+
+## Question: 16
+
+> Create a Kubernetes secret with Name "bobs-secret" containing data "password=bob"
+
+* Create a pod named pod-secrets-via-file, using the busybox image, which mounts the secret named bobs-secret at
+  /secrets
+* Create a second pod named pod-secrets-via-env, using the busybox Image, which exports password as CONFIDENTIAL
+  environment variable
+
+#### Answer:
+
+* kubectl create secret generic bobs-secret --from-literal=password=bob
+
+---

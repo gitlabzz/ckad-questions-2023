@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-secrets-via-file
+spec:
+  volumes:
+    - name: secrets
+      secret:
+        secretName: "bobs-secret"
+  containers:
+    - name: busybox
+      image: busybox
+      volumeMounts:
+        - name: secrets
+          mountPath: /secret
+          readOnly: true
