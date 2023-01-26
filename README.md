@@ -1,6 +1,8 @@
 # ckad-questions-2023
+
 just some questions from my practice
 ---
+
 # Practice Question 26th Jan 2023
 
 ## Question:1
@@ -157,3 +159,22 @@ create three pod:
 * kubectl exec -it nginx-do-not-allow-client -- wget http://nginx --timeout 2
 
 ---
+
+## Question: 9
+
+> List all persistent volumes sorted by capacity
+
+#### Answer:
+
+* kubectl get persistentVolumes --sort-by=.spec.capacity.storage -o json > volume_list.json
+* kubectl get persistentVolumes --sort-by=.spec.capacity.storage -o yaml > volume_list.yaml
+
+---
+
+## Question: 10
+
+>Ensure a single instance of pod nginx is running on each node in the cluster
+
+* where nginx also represents the image name which has to be used
+* Do not override any taints currently in place.
+* Use DaemonSet to complete this task and use ds-nginx as DaemonSet name
