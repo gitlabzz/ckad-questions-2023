@@ -173,8 +173,20 @@ create three pod:
 
 ## Question: 10
 
->Ensure a single instance of pod nginx is running on each node in the cluster
+> Ensure a single instance of pod nginx is running on each node in the cluster
 
 * where nginx also represents the image name which has to be used
 * Do not override any taints currently in place.
 * Use DaemonSet to complete this task and use ds-nginx as DaemonSet name
+
+---
+
+## Question: 11
+
+> Crate a pod that has main container and init container
+
+* main container reads and prints the contents of file created by init container
+
+#### Answer:
+
+* kubectl run pod11 --image=busybox --restart=Never --dry-run=client -o yaml >> eleven.yaml
