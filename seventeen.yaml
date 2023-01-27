@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv-volume
+spec:
+  storageClassName: nfs-client
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: one
+  name: one
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: one
+  template:
+    metadata:
+      labels:
+        app: one
+    spec:
+      nodeSelector:
+        name: minion1
+      volumes:
+        - name: pv-volume
+          persistentVolumeClaim:
+            claimName: pv-volume
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: pv-volume
+              mountPath: "/usr/share/nginx/html"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: two
+  name: two
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: two
+  template:
+    metadata:
+      labels:
+        app: two
+    spec:
+      nodeSelector:
+        name: minion2
+      volumes:
+        - name: pv-volume
+          persistentVolumeClaim:
+            claimName: pv-volume
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: pv-volume
+              mountPath: "/usr/share/nginx/html"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: writer
+spec:
+  restartPolicy: Never
+  volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: pv-volume
+  containers:
+    - name: writer
+      image: busybox
+      command: [ "/bin/sh", "-c", "echo 'hello from writer!!!' > /data/index.html" ]
+      volumeMounts:
+        - name: data
+          mountPath: /data/

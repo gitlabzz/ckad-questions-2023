@@ -258,3 +258,19 @@ Schedule a pod on a node with label zone:dmz
 * kubectl create secret generic bobs-secret --from-literal=password=bob
 
 ---
+
+## Question: 17
+
+> Create two deployments both using same persistent volume to read and write data
+
+* Deployment A uses worker node with label name=minion1
+* Deployment B uses worker node with label name=minion2
+* Create a writer pod using busybox image to write something in shared persistent volume that can be accessed by the
+  deployments
+* Persistent Volume is allocated by the storage class named nfs-client
+
+#### Answer:
+
+* kubectl create deployment deployA --image busybox --dry-run=client -o yaml >> seventeen.yaml
+
+---
