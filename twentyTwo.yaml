@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      restartPolicy: Always
+      volumes:
+        - name: data
+          emptyDir:
+            { }
+      initContainers:
+        - name: init-index
+          image: busybox
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          command: [ "sh", "-c", "echo init-index container is starting...; echo 'hello from nginx' > /data/index.html; echo init-index container is done" ]
+        - name: init-healthcheck
+          image: busybox
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          command: [ "sh", "-c", "echo init-healthcheck container is starting...; echo 'healthcheck' > /data/healthcheck.html; echo init-healthcheck container is done" ]
+      containers:
+        - name: nginx
+          image: nginx
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 2
+            httpGet:
+              path: /index.html
+              port: 80
+          livenessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 2
+            httpGet:
+              path: /healthcheck.html
+              port: 80
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+          ports:
+            - containerPort: 80
+        - name: side-car
+          image: busybox
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          command: [ "/bin/sh", "-c", "sleep 60; echo 'deleting /data/healthcheck.html'; rm -rf /data/healthcheck.html; echo '/data/healthcheck.html deleted!!!'" ]

@@ -274,3 +274,123 @@ Schedule a pod on a node with label zone:dmz
 * kubectl create deployment deployA --image busybox --dry-run=client -o yaml >> seventeen.yaml
 
 ---
+
+Question: 18
+
+> Scale the deployment webserver to 6 pods.
+
+#### Answer:
+
+* kubectl scale deployment webserver --replicas=6
+
+---
+
+## Question: 19
+
+> Create a deployment as follows:
+
+* Deployment name nginx using nginx image
+* Exposed via a service called nginx-svc
+* Ensure that the service & pod are accessible via their respective DNS records
+* use the utility nslookup to look up the DNS records of the service & pod
+
+#### Answer:
+
+* kubectl create deployment nginx --image=nginx --replicas=2
+* kubectl expose deployment nginx --name nginx-svc --target-port=80 --port=80
+* kubectl get pods -o wide | grep nginx
+    * nginx-748c667d99-56t6q 1/1 Running 0 19m 192.168.179.215 minion2   <none>           <none>
+    * nginx-748c667d99-rlzqz 1/1 Running 0 19m 192.168.34.30 minion1   <none>           <none>
+* kubectl run -i --tty debugger --image=radial/busyboxplus:curl --restart=Never -- nslookup nginx-svc
+* kubectl run -i --tty debugger --image=radial/busyboxplus:curl --restart=Never -- nslookup 192-168-179-215.web.pod
+
+> for pod nslookup: pod-ip replace dots with hyphen and fully qualify with .namespace-name.pod
+
+---
+
+## Question: 20
+
+> Create a snapshot of the etcd instance running at https://127.0.0.1:1111, saving the snapshot to the file path
+> /tmp/snapshot.db. The following TLS certificates/key are supplied for connecting to the server with etcdctl:
+
+* CA certificate: /tmp/ca.crt
+* Client certificate: /tmp/client.crt
+* Client key: /tmp/client.key
+
+#### Answer:
+
+* ETCDCTL_API=3 etcdctl --endpoints=https://127.0.0.1.1111 --cacert=/tmp/ca.crt --cert=/tmp/client.crt
+  --key=/tmp/client.key snapshot save /tmp/snapshot.db
+
+---
+
+## Question: 21
+
+Set the node named "minion2" as unavailable and reschedule all the pods running on it.
+
+#### Answer:
+
+* kubecctl config use-context dev
+* kubectl create deployment nginx --image=nginx --replicas=20
+* kubectl drain minion2 --ignore-daemonsets --delete-emptydir-data --force
+
+> to enable scheduling on node
+
+* kubectl uncordon minion2
+
+---
+
+## Question: 21
+
+> Your application’s namespace requires a specific service account to be used.
+
+* Create service account "limited-service"
+* Update the nginx deployment to run as "limited-service" using service account
+
+#### Answer:
+
+* kubectl create serviceaccount limited-service
+* kubectl get serviceaccounts
+* kubectl create deployment nginx --image=nginx
+* kubectl get deployments
+* kubectl set serviceaccount deployment nginx limited-service
+
+---
+
+## Question: 22
+
+> A pod is running on the cluster, but it's not responding. The desired behavior is to have Kubernetes restart the pod
+> when an endpoint returns an HTTP 500 on the /healthcheck endpoint. The service should never send traffic to the
+> pod while it is failing. Please complete the following:
+
+* The application has an endpoint, /ready, that will indicate if it can accept traffic by returning an HTTP 200. If
+  the endpoint returns an HTTP 500, the application has not yet finished initialization.
+* The application has another endpoint /healthcheck that will indicate if the application is still working as expected
+  by
+  returning an HTTP 200. If the endpoint returns an HTTP 500 the application is no longer responsive.
+
+#### Answer:
+
+* twentyTwo.yaml
+
+---
+
+## Question: 23
+
+> Update the app deployment with a maxSurge of 10% and a maxUnavailable of 3%
+
+* create a deployment with image nginx:latest
+* Perform a rolling update of the nginx deployment, changing the nginx image version to 1.23.3
+* Roll back the app deployment to the previous version that is nginx:latest
+
+#### Answer:
+
+* kubectl create deployment nginx --image=nginx:latest --port=80 --dry-run=client -o yaml >> twentyThree.yaml
+* kubectl set image deployment nginx nginx=nginx:1.23.3
+* kubectl rollout status deployment nginx
+* kubectl rollout undo deployment nginx
+* kubectl rollout status deployment nginx
+* kubectl delete deployment nginx
+
+---
+
