@@ -394,3 +394,185 @@ Set the node named "minion2" as unavailable and reschedule all the pods running 
 
 ---
 
+## Question: 24
+
+> define pod that run periodically:
+
+* runs date command in a single busybox container.
+* The command should run every minute and must complete within 22 seconds
+
+#### Answer:
+
+* kubectl create cronjob datewriter --image=busybox --schedule "*/1 * * * *" --dry-run=client -o yaml >>
+  twentyFound.yaml
+
+---
+
+## Question: 24
+
+> Create a resource quota and apply to a namespace
+
+* kubectl create quota test-quota --hard=pods=5,cpu=500m,memory=1Gi --namespace=web
+* kubectl delete quota test-quota
+
+---
+
+### High level questions:
+
+Ability to use Kubernetes API objects to manage and configure a cluster
+Configuring and using secrets and ConfigMaps
+Creating and managing custom resources and controllers
+Creating and managing pods, services, and replication controllers
+Debugging and troubleshooting Kubernetes clusters
+Describe how to set up and use a ConfigMap in Kubernetes.
+Describe how to set up and use a ConfigMap.
+Describe how to set up and use a Persistent Volume Claim.
+Describe how to set up and use a Secret.
+Describe the difference between a Deployment and a ReplicationController in Kubernetes.
+Describe the different types of Volumes in Kubernetes and when to use each.
+Describe the process for creating and using a Kubernetes Custom Resource Definition (CRD).
+Describe the process for debugging a Kubernetes application.
+Describe the process for rolling out an update to a Deployment in Kubernetes.
+Describe the process for rolling out an update to a Kubernetes deployment.
+Describe the process for scaling a Deployment in Kubernetes.
+Describe the process for scaling a Kubernetes deployment.
+Describe the process of draining a node.
+Describe the process of rolling out an update to a deployment.
+Discuss the use of ConfigMaps and Secrets in a Kubernetes cluster.
+Discuss the use of namespaces in Kubernetes and the process for switching between them.
+Experience with configuring and running stateful applications on Kubernetes
+Explain how to configure liveness and readiness probes in a Kubernetes pod.
+Explain how to scale a deployment and what the impact is on the pods.
+Explain how to set up and use a StatefulSet.
+Explain how to troubleshoot a pod that is not starting or crashing.
+Explain how you would roll out an update to a Deployment in a safe and controlled manner.
+Explain the concept of a Kubernetes service and its role in networking.
+Explain the difference between a Deployment and a ReplicaSet.
+Explain the difference between a pod and a deployment.
+Explain the purpose of a service and its different types.
+Explain the role of the Kubernetes API server and how it communicates with other components in the cluster.
+Explain the use of labels and selectors in Kubernetes.
+Familiarity with Kubernetes advanced features such as horizontal pod autoscaling, custom resource definitions, and
+operator frameworks
+Familiarity with Kubernetes extensions and other ecosystem projects like Istio and Prometheus.
+How can you create a ConfigMap using a YAML file?
+How can you create a Kubernetes cluster on a public cloud provider such as GKE or EKS?
+How do you configure a Kubernetes ConfigMap and use it in a Pod?
+How do you configure a Kubernetes ConfigMap?
+How do you configure a Kubernetes Pod to run multiple containers?
+How do you configure a Kubernetes Pod to use a specific amount of CPU and memory resources?
+How do you configure a Kubernetes Secret and use it in a Pod?
+How do you configure a Kubernetes secret?
+How do you configure a Kubernetes Service to access a Deployment using a specific IP and port?
+How do you configure a Kubernetes Service to access a Deployment?
+How do you configure a Kubernetes service to use a specific IP address?
+How do you configure and use a Kubernetes Ingress resource?
+How do you configure and use Kubernetes Security Contexts and Pod Security Policies?
+How do you configure environment variables for a container running in a Kubernetes Pod?
+How do you configure liveness and readiness probes for a container in a pod?
+How do you configure network policies in a Kubernetes cluster?
+How do you configure resource limits and requests for a container in a pod?
+How do you configure resource limits for a pod in Kubernetes?
+How do you create a ConfigMap in a Kubernetes cluster?
+How do you create a ConfigMap in a specific namespace?
+How do you create a Kubernetes Deployment?
+How do you create a pod in Kubernetes?
+How do you create and manage Persistent Volumes and Persistent Volume Claims in Kubernetes?
+How do you create and use a Secret in Kubernetes?
+How do you deploy an application using a Helm chart?
+How do you ensure that a specific version of a container image is deployed to a pod?
+How do you handle rolling updates in a Kubernetes deployment?
+How do you implement Kubernetes network policies?
+How do you perform a rolling update on a deployment in Kubernetes?
+How do you roll back a Deployment in Kubernetes?
+How do you roll back a deployment to a previous version?
+How do you roll out a new version of a deployment?
+How do you scale a Deployment in a Kubernetes cluster?
+How do you scale a deployment in Kubernetes?
+How do you scale a Deployment in Kubernetes?
+How do you scale a deployment?
+How do you set up a multi-container Pod in Kubernetes?
+How do you set up a rolling update strategy for a Deployment in Kubernetes?
+How do you set up and use a ConfigMap in a Kubernetes cluster?
+How do you set up and use a horizontal pod autoscaler?
+How do you set up and use a Kubernetes Ingress resource?
+How do you set up and use a liveness probe for a pod?
+How do you set up and use a readiness probe for a pod?
+How do you set up and use a Secret in a Kubernetes cluster?
+How do you set up automatic sidecar injection in a Kubernetes cluster?
+How do you set up persistent storage for a Kubernetes Pod?
+How do you troubleshoot a deployment that is not working as expected?
+How do you troubleshoot a failing pod in Kubernetes?
+How do you troubleshoot a Kubernetes cluster?
+How do you troubleshoot a Pod that is in a CrashLoopBackOff state in Kubernetes?
+How do you troubleshoot a pod that is in a CrashLoopBackOff state?
+How do you troubleshoot a Pod that is not starting in Kubernetes?
+How do you update the data in an existing ConfigMap?
+How do you use Kubernetes for storage provisioning?
+How to configure and use Kubernetes services?
+How to configure liveness and readiness probes for a Pod?
+How to configure security settings and network policies
+How to create and manage config maps and secrets
+How to create and manage ConfigMaps and Secrets?
+How to create and manage Deployments
+How to create and manage deployments and rollouts
+How to create and manage Kubernetes objects using kubectl commands
+How to create and manage Kubernetes objects using manifests
+How to create and manage Kubernetes pods and deployments?
+How to create and manage Pods
+How to create and manage pods and replica sets
+How to create and manage Replication Controllers and Replica Sets
+How to create and manage Services
+How to create and manage services and network access
+How to create and manage Services, Endpoints, and Network Policies?
+How to create and manage StatefulSets and PersistentVolumes?
+How to debug and troubleshoot pods and replica sets
+How to define and use environment variables in a Pod?
+How to deploy stateful applications in Kubernetes?
+How to manage and troubleshoot a Kubernetes cluster
+How to manage storage and persistent volumes
+How to roll back a Deployment?
+How to scale and roll out updates to a deployment?
+How to scale and update a Deployment?
+How to scale and update application deployments
+How to secure a Kubernetes cluster using network policies and secrets?
+How to set resource limits and requests for a Pod?
+How to troubleshoot and debug a Kubernetes cluster?
+How to troubleshoot and debug common issues in a Kubernetes cluster.
+How to troubleshoot and debug Kubernetes clusters
+How to use and configure kubeadm and kubectl command-line tool to create a cluster.
+How to use and configure kubectl command-line tool
+How to use and create custom resources
+How to use and manage ConfigMaps and Secrets
+How to use and manage Ingress resources
+How to use and manage Jobs and CronJobs
+How to use and manage Namespaces and Resource Quotas.
+How to use and manage Persistent Volumes and Claims
+How to use kubectl command-line tool
+How to use Kubernetes APIs and client libraries to automate cluster management tasks.
+How to use Kubernetes autoscaling?
+How to use Kubernetes config maps and secrets?
+How to use Kubernetes ConfigMaps and Secrets to configure applications
+How to use Kubernetes labels, selectors and annotations.
+How to use Kubernetes Namespaces and Resource Quotas for multi-tenancy
+How to use Kubernetes network primitives such as Services and Ingress
+How to use Kubernetes security primitives such as Secrets and RBAC
+How to use Kubernetes storage primitives such as Persistent Volumes and StatefulSets
+How to use Kubernetes Volumes and Persistent Volumes?
+How to use labels and selectors to organize and filter resources?
+Knowledge of Kubernetes security features such as RBAC and network policies
+Knowledge of Kubernetes troubleshooting and debugging techniques
+Managing and maintaining Kubernetes clusters and nodes
+Scaling and self-healing capabilities of Kubernetes
+Setting up and using Ingress and service meshes
+Understanding and implementing Kubernetes security best practices
+Understanding and using Kubernetes networking and service discovery
+Understanding of best practices for containerization and container orchestration
+Understanding of Kubernetes networking and service discovery
+Understanding of Kubernetes storage and volume management
+Using Kubernetes API objects and kubectl commands
+What is a Kubernetes service and how is it used?
+What is the difference between a ReplicationController and a ReplicaSet in Kubernetes?
+What is the purpose of a Service in Kubernetes and how is it different from a Deployment?
+What is the purpose of a Service in Kubernetes?
+What is the role of a ConfigMap and how is it used in a Kubernetes cluster?

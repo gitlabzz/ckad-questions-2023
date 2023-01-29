@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: datewriter
+spec:
+  schedule: '*/1 * * * *'
+  startingDeadlineSeconds: 22
+  jobTemplate:
+    metadata:
+      name: datewriter
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - image: busybox
+              name: datewriter
+              args: [ "/bin/sh", "-c", "date" ]
