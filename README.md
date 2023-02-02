@@ -121,7 +121,7 @@ A project that you are working on has a requirement for persistent data to be av
 Developers occasionally need to submit pods that run periodically.
 Task:
 
-> Follow the steps below to create a pod that will start at a predetermined time and]which runs to completion only once
+> Follow the steps below to create a pod that will start at a predetermined time and runs to completion only once
 > each time it is started:
 
 * Create a YAML formatted Kubernetes manifest, that runs the following shell command, in a single busybox container:
@@ -346,6 +346,7 @@ Set the node named "minion2" as unavailable and reschedule all the pods running 
 
 * Create service account "limited-service"
 * Update the nginx deployment to run as "limited-service" using service account
+* print service account token in base64 decoded form
 
 #### Answer:
 

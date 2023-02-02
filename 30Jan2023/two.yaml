@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: neb-new-job
+  namespace: web
+spec:
+  parallelism: 2
+  completions: 3
+  template:
+    metadata:
+      labels:
+        id: awesome-job
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: neb-new-job-container
+          image: busybox
+          command:
+            - "/bin/sh"
+            - "-c"
+            - "sleep 2 && echo done"

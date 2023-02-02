@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-job
+spec:
+  parallelism: 2
+  completions: 3
+  activeDeadlineSeconds: 22
+  template:
+    metadata:
+      name: hello-job-pod
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: hello-job-container
+          image: busybox
+          command:
+            - sh
+            - -c
+            - sleep 2 && echo done

@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: '*/1 * * * *'
+  startingDeadlineSeconds: 22
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      name: hello
+    spec:
+      parallelism: 2
+      template:
+        metadata:
+          name: hello
+        spec:
+          restartPolicy: Never
+          containers:
+            - image: busybox
+              name: hello

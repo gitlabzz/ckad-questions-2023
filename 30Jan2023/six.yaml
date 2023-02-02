@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: pod6
+  name: pod6
+spec:
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  containers:
+    - name: pod6
+      image: busybox
+      readinessProbe:
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        exec:
+          command: [ "/bin/sh", "-c", "cat /tmp/ready" ]
+      command:
+        - "/bin/sh"
+        - "-c"
+        - "touch /tmp/ready && sleep 1d"
