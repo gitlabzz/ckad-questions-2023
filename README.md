@@ -124,7 +124,10 @@ Create a secret and consume the secret in a pod using environment variables as f
 
 * Create a secret named another-secret with a key/value pair; key1/value4
 * Start nginx pod named nginx-secret using container image nginx,
-* and add an environment variable COOL_VARIABLE"" exposing the value of the secret key; key 1 inside the container
+* create init container and add an environment variable COOL_VARIABLE"" exposing the value of the secret key; key 1
+  inside the container
+* write the value of key1 into shared volume
+* the main container read and write the value of key1 to stdout
 
 #### Answer:
 
