@@ -113,6 +113,8 @@ Task Please complete the following:
 #### Answer:
 
 * kubectl create configmap another-config --from-literal=key4=value3
+* kubectl create deployment nginx-deployment --image=nginx --port=80 --dry-run=client -o yaml
+* kubectl run tmp --image=radial/busyboxplus:curl --restart=Never --rm --tty -i -- curl nginx-configmap
 
 ---
 
