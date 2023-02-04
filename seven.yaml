@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /tmp/data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    type: frontEnd
+  annotations:
+    questionNo: four
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      type: frontEnd
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        type: frontEnd
+      annotations:
+        questionNo: four
+    spec:
+      nodeSelector:
+        name: minion2
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: task-pv-claim
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    type: frontEnd
+  annotations:
+    questionNo: four
+spec:
+  type: ClusterIP
+  selector:
+    type: frontEnd
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 80
+---
+#https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/basic-configuration/
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-deployment-ingress
+spec:
+  ingressClassName: nginx
+  defaultBackend:
+    service:
+      name: nginx
+      port:
+        number: 80
+  rules:
+    - host: nginx.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 8080

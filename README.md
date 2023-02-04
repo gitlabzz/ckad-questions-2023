@@ -141,7 +141,7 @@ Create a secret and consume the secret in a pod using environment variables as f
 
 A project that you are working on has a requirement for persistent data to be available, perform the following tasks:
 
-* Create a file on node for example "minion2" at /tmp/data/index.html with the content Acct=Finance
+* Create a file on node for example "minion2" at /tmp/data/index.html with the content "hello from minion2!!!"
 * Create a PersistentVolume named task-pv-volume using hostPath and allocate 1Gi to it, specifying that the volume is at
   /tmp/data on the cluster's node.
 * The configuration should specify the access mode of ReadWriteOnce.
@@ -154,6 +154,8 @@ A project that you are working on has a requirement for persistent data to be av
 
 * kubectl create deployment nginx --image=nginx --port=80 --replicas=4 --dry-run=client -o yaml > seven_d.yaml
 * kubectl expose deployment nginx --target-port=80 --port=80
+* kubectl run tmp --image=radial/busyboxplus:curl --restart=Never -i --tty -- curl nginx-service:8080
+* curl nginx.example.com
 
 ---
 
