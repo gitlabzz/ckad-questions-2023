@@ -10,22 +10,38 @@ just some questions from my practice
 ### Create a new deployment for running.nginx with the following parameters:
 
 * Name the deployment nginx and configure with 4 replicas
+* set the rolling update strategy with 25%
 * Configure the pod with a container image of nginx:latest
 * Set an environment variable NGINX-PORT=8080 and also expose that port for the container
+* set cpu and memory limit for container to cpu=150m and memory=150Mi
+* when creating deployment ensure that you record the change cause
+* check deployment status
+* change deployment's container's image to nginx:1.23.1 with change cause recording
+* check deployment history
+* rollback to previous version
 
 #### Answer:
 
-*
+* kubectl create deployment nginx --image=nginx --replicas=4 --dry-run=client --port=8080 -o yaml > one.yaml
+* check one.yaml
+* kubectl apply -f one.yaml --record
+* kubectl set image deployment nginx-deployment nginx-container=nginx:1.23.1 --record
+* kubectl rollout status deployment nginx-deployment
+* kubectl rollout history deployment nginx-deployment
+* kubectl rollout undo deployment nginx-deployment --to-revision=1
+* kubectl rollout status deployment nginx-deployment
 
 ---
 
 ## Question:2
 
-### Create a secret and consume the secret in a pod using environment variables as follow:
+### Create a secret and consume the secret in a pod using environment variables as follows:
 
 * Create a secret named another-secret with a key/value pair - key1/value4
-* Start nginx pod named nginx-secret using container image nginx,
+* Start nginx pod named nginx-secret using container image nginx on worker node named minion2
 * add an environment variable with name "COOL_VARIABLE" exposing the value of the secret key "key1"
+* add an annotation that records secretName:another-secret
+* start the pod and check the value of COOL_VARIABLE
 
 #### Answer:
 
@@ -56,12 +72,32 @@ Crate a deployment and expose it via a service of type ClusterIP:
 Edit it to:
 
 * Add the type=frontEnd key/value label to the pod template metadata to identify the pod for the service definition
-* Have 4 replicas
+* Have 2 replicas
 * Exposes the service on TCP port 8080
+* increase deployment replicas to 5
+* test the service using its DNS name using a temporary pod
+* decrease deployment replicas to 2
+* change deployment image for nginx container to nginx:latest
+* update the change cause for revision 2 to "only updated nginx image, set to nginx:latest"
+* add a custom annotation with key: my-custom-annotation and value="just a custom annotation for testing!!!"
 
 #### Answer:
 
-* kubectl create deployment nginx --image=nginx --port=80 --dry-run=client --replicas=3 -o yaml > four.yaml
+* kubectl create deployment nginx --image=nginx --port=80 --dry-run=client --replicas=2 -o yaml > four.yaml
+* kubectl expose deployment nginx-deployment --name=nginx-service --target-port=8080 --port=8080
+  --selector=type=frontEnd --dry-run=client -o yaml > four_b.yaml
+* kubectl scale deployment nginx-deployment --replicas=10
+* kubectl rollout status deployment nginx-deployment
+* kubectl run tmp --image=radial/busyboxplus:curl --restart=Never --rm -i --tty -- curl nginx-service:8080
+* kubectl scale deployment nginx-deployment --replicas=2
+* kubectl rollout status deployment nginx-deployment
+* kubectl rollout history deployment nginx-deployment
+* kubectl set image deployment nginx-deployment nginx=nginx:latest --record
+* kubectl patch deployments nginx-deployment --patch '{"metadata": {"annotations": {"kubernetes.io/change-cause": "only
+  updated nginx image, set to nginx:latest"}}}'
+* kubectl rollout history deployment nginx-deployment
+* kubectl patch deployments nginx-deployment --patch '{"metadata": { "annotations": { "my-custom-annotation": "just a
+  custom annotation for testing!!!" } } }'
 
 ---
 
