@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-node-affinity
+  labels:
+    learning: pod-node-affinity
+  annotations:
+    learning: pod-node-affinity
+spec:
+  restartPolicy: Never
+  terminationGracePeriodSeconds: 5
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - minion1
+
+  containers:
+    - name: busybox
+      image: busybox
+      lifecycle:
+        postStart:
+          exec:
+            command: [ "/bin/sh", "-c", "echo Hello from the postStart handler > /proc/1/fd/1" ]
+        preStop:
+          exec:
+            command: [ "/bin/sh", "-c", "echo Bye from the preStop handler > /proc/1/fd/1; sleep 1" ]
+      command:
+        - /bin/sh
+        - -c
+        - echo going to sleep; sleep 3600
+      resources:
+        requests:
+          cpu: 64m
+          memory: 64Mi
+        limits:
+          cpu: 128m
+          memory: 128Mi

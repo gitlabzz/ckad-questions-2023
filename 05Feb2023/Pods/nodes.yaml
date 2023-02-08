@@ -1,0 +1,24 @@
+master:
+  beta.kubernetes.io: arch=amd64,beta.kubernetes.io/os=linux
+  kubernetes.io/arch: amd64
+  kubernetes.io/hostname: master
+  kubernetes.io/os: linux
+  node-role.kubernetes.io/control-plane: ''
+  node.kubernetes.io/exclude-from-external-load-balancers: ''
+
+minion1:
+  beta.kubernetes.io/arch: amd64
+  beta.kubernetes.io/os: linux
+  kubernetes.io/arch: amd64
+  kubernetes.io/hostname: minion1
+  kubernetes.io/os: linux
+  name: minion1
+
+minion2:
+  beta.kubernetes.io/arch: amd64
+  beta.kubernetes.io/os: linux
+  kubernetes.io/arch: amd64
+  kubernetes.io/hostname: minion2
+  kubernetes.io/os: linux
+  name: minion2
+  disk: spinning
